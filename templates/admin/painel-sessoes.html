@@ -1,0 +1,64 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Gerenciar sessões
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{url_for('static', filename='js/atualizar-status.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+    <h1 class="content-title">Sessões</h1>
+
+    <a class="button" href="{{url_for('sessao.nova')}}">Adicionar sessão</a>
+
+    <section class="admin-items">
+        {%for sessao in sessoes.items%}
+            <article class="admin-item">
+                <h1 class="admin-item-title">
+                    <a href="{{url_for('sessao.sessao', id=sessao.id)}}">{{sessao.tipo}}</a>
+                </h1>
+                <p class="admin-item-details">
+                    Data: {{sessao.data.strftime('%d/%m/%Y')}}<br/>
+                    Hora: {{sessao.hora.strftime('%H:%M')}}
+                </p>
+                <div class="admin-item-actions">
+                    <a class="button" href="{{url_for('sessao.editar', id=sessao.id)}}">Editar</a>
+                
+                    <div class="switch">
+                        <input 
+                            type="checkbox" 
+                            name="toggle-btn" 
+                            id="{{sessao.id}}" 
+                            data-rota="{{url_for('sessao.atualizar_status')}}"
+                            {% if sessao.status %} 
+                                checked
+                            {% endif %}
+                            onchange="alterarStatus(this)"/>
+                        <label for="{{sessao.id}}">Status</label>
+                    </div>
+                </div>
+            </article>
+            
+
+
+        {%endfor%}
+    </section>
+
+    <nav class="paginacao">
+        <a class="btn btn-page" href="{{url_for('sessao.painel_sessoes', page=sessoes.prev_num)}}">
+            <i class="material-icons">navigate_before</i>
+        </a>
+        {% for page_num in sessoes.iter_pages() %}
+            {% if page_num == sessoes.page %}
+                <a class="btn btn-page btn-disable" href="#">{{page_num}}</a>
+            {%else%}
+                <a class="btn btn-page" href="{{url_for('sessao.painel_sessoes', page=page_num)}}">{{page_num}}</a>
+            {% endif %}
+        {% endfor %}
+        <a class="btn btn-page" href="{{url_for('sessao.painel_sessoes', page=sessoes.next_num)}}">
+            <i class="material-icons">navigate_next</i></a>
+        <p class="paginacao-info">Página {{sessoes.page}} de {{sessoes.pages}}</p>
+    </nav>
+{% endblock %}

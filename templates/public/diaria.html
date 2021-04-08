@@ -1,0 +1,15 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Diária
+{% endblock %}
+
+{% block content %}
+    <h1 class="titulo">{{diaria.nome}}</h1>
+    <p>
+        Data: {{diaria.data.strftime("%d/%m/%Y")}}<br>
+        Destino: {{diaria.destino}}<br>
+        Motivo: {{diaria.motivo}}<br>
+        Valor: R${{diaria.valor}}
+    </p>
+{% endblock %}

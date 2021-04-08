@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=M+PLUS+Rounded+1c:wght@300&family=Maitree:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/cabecalho.css')}}">
+    <style>
+
+        h1 {
+            padding: 30px;
+            font-size: 150%;
+            text-align: center;
+        }
+        .form-login {
+            padding: 0 30px;
+        }
+        .form-login-group {
+            margin-top: 20px;
+        }
+        .form-login-group input {
+            border: 1px solid rgba(128, 128, 128, 0.3);
+            width: 100%;
+            padding: 5px 3px;
+            font-size: 115%;
+            margin-top: 5px;
+            border-radius: 3px;
+        }
+        .form-login-group input[type=submit] {
+            border: none;
+            cursor: pointer;
+        }
+
+        .info {
+            color: coral;
+            padding: 5px 0;
+        }
+
+    </style>
+    <link rel="stylesheet" href="{{url_for('static', filename='/css/notificacoes.css')}}">
+    <script src="{{url_for('static', filename='js/notificacoes.js')}}"></script>
+</head>
+<body>
+    <div class="site">
+
+        <main class="content-wraper padding">
+            <h1>Login</h1>
+                
+            <form class="form-login" action="{{url_for('usuario.login')}}" method="post">
+                {% include 'public/area-de-notificacao.html' %}
+                {{form.csrf_token}}
+                <div class="form-login-group">
+                    {{form.usuario.label}}
+                    {{form.usuario}}
+                    {% if form.errors %}
+                        {{form.errors.get('usuario')[0]}}
+                    {% endif %}
+                </div>
+                <div class="form-login-group">
+                    
+                    {{form.senha.label}}
+                    {{form.senha}}
+                    {% if form.errors %}
+                        {{form.errors.get('senha')[0]}}
+                    {% endif %}
+                </div>
+                
+                <div class="form-login-group">
+                    <input type="submit" value="Entrar" name="btnSubmit">   
+                </div>
+            </form>
+        </main>
+        {% include 'public/footer.html' %}
+    </div>
+</body>
+</html>

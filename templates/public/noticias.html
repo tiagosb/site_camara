@@ -1,0 +1,40 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Noticias
+{% endblock %}
+
+{%block content %}
+    <section class="posts">
+        {% for noticia in noticias.items %}
+                <article class="post">
+                    <a href="{{url_for('noticia.noticia', id=noticia.id)}}">
+                        <h1 class="post-title">{{ noticia.titulo }}</h1>
+                    
+                        {%if noticia.thumb %}
+                            <img class="post-thumb" src="{{url_for('views.media_img', filename=noticia.thumb)}}">
+                        {%endif%}
+                    </a>
+                    <p class="post-info">
+                        {{noticia.categoria}} - {{ noticia.postado_em.strftime("%Y/%m/%d %H:%M") }}
+                    </p>
+                </article>
+        {% endfor %}
+    </section>    
+    <nav class="paginacao">
+        <a class="btn btn-page" href="{{url_for('noticia.noticias', page=noticias.prev_num)}}">
+            <i class="material-icons">navigate_before</i>
+        </a>
+        {% for page_num in noticias.iter_pages() %}
+            {% if page_num == noticias.page %}
+                <a class="btn btn-page btn-disable" href="#">{{page_num}}</a>
+            {%else%}
+                <a class="btn btn-page" href="{{url_for('noticia.noticias', page=page_num)}}">{{page_num}}</a>
+            {% endif %}
+        {% endfor %}
+        <a class="btn btn-page" href="{{url_for('noticia.noticias', page=noticias.next_num)}}">
+            <i class="material-icons">navigate_next</i></a>
+        <p class="paginacao-info">Página {{noticias.page}} de {{noticias.pages}}</p>
+    </nav>    
+    
+{% endblock %}

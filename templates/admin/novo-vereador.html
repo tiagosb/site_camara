@@ -1,0 +1,84 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Novo vereador
+{% endblock%}
+
+{% block scripts %}
+<script src="{{url_for('static', filename='tinymce/tinymce.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/form-noticia.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+<h1 class="titulo">Cadastrar vereador</h1>
+<form action="{{url_for('vereador.novo')}}" method="post" enctype="multipart/form-data">
+    {{form.csrf_token}}
+    {% if form.csrf_token.errors %}
+    <span>Erro de CSRF - Acesse o formulário a partir do painel administrativo de vereadores.</span>
+    {% endif %}
+    <div class="form-group">
+        {{form.nome_civil.label}}
+        {{form.nome_civil}}
+    </div>
+
+    <div class="form-group">
+        {{form.nome_urna.label}}
+        {{form.nome_urna}}
+    </div>
+    <div class="form-group">
+        {{form.naturalidade.label}}
+        {{form.naturalidade}}
+    </div>
+    <div class="form-group">
+        {{form.uf.label}}
+        {{form.uf}}
+    </div>
+    <div class="form-group">
+        {{form.ocupacao.label}}
+        {{form.ocupacao}}
+    </div>
+    <div class="form-group">
+        {{form.escolaridade.label}}
+        {{form.escolaridade}}
+    </div>
+    <div class="form-group">
+        {{form.partido.label}}
+        {{form.partido}}
+    </div>
+    <div class="form-group">
+        {{form.legislaturas.label}}
+        {{form.legislaturas}}
+    </div>
+    <div class="form-group">
+        {{form.telefone.label}}
+        {{form.telefone}}
+    </div>
+
+    <div class="form-group">
+        {{form.email.label}}
+        {{form.email}}
+    </div>
+    <div class="form-group">
+        {{form.nascimento.label}}
+        {{form.nascimento}}
+    </div>
+    <div class="form-group">
+        {{form.detalhes.label}}
+        {{form.detalhes}}
+    </div>
+    <div class="form-group">
+        {{form.thumb.label}}
+        {{form.thumb(accept='image/*')}}
+    </div>
+
+    <div class="form-group">
+        <span>Preview da fotografia</span>
+        <img id="thumb-preview">
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Cadastrar">
+    </div>
+</form>
+
+{% endblock %}

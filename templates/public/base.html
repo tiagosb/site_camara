@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Câmara Municipal de ?</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=M+PLUS+Rounded+1c:wght@300&family=Maitree:wght@600&display=swap" rel="stylesheet">    
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/cabecalho.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/notificacoes.css')}}">
+    <script src="{{url_for('static', filename='js/menu.js')}}"></script>
+    <script src="{{url_for('static', filename='js/notificacoes.js')}}"></script>
+    {%block scripts%}{%endblock%}
+    {%block estilos%}{%endblock%}
+</head>
+<body>
+    <div class="site">
+        <ul class="acessibilidade-toll">
+            <li>
+                <button onclick="changeFont('+')">A+</button>
+            </li>
+            <li>
+                <button onclick="changeFont('n')">A</button>
+            </li>
+            <li>
+                <button onclick="changeFont('-')">A-</button>
+            </li>
+            <li>
+                <button onclick="changeSchema()">C</button>
+            </li>
+        </ul>
+        <header class="cabecalho padding bg-color">
+            <a href="{{url_for('views.index')}}">
+                <h1 class="logo">Câmara Municipal</h1>
+            </a>
+            <button class="btn-menu">
+                Abrir menu
+            </button>
+        </header>
+        {% if 'auth' in session and session['auth'] %}
+            {% include 'admin/adm-menu.html' %}
+        {% else %}
+            {% include 'public/menu.html' %}
+        {% endif %}
+        <main class="content-wraper padding">
+            {% include 'public/area-de-notificacao.html' %}
+            {% block content %}{% endblock %}
+        </main>
+
+        {% include 'public/footer.html' %}
+    </div>
+</body>
+</html>

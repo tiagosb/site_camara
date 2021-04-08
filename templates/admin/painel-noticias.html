@@ -1,0 +1,60 @@
+{% extends 'public/base.html' %}
+{% block title %}
+    Gerenciar notícias
+{% endblock %}
+{% block scripts %}
+    <script src="{{url_for('static', filename='js/atualizar-status.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+
+    <h1 class="content-title">Noticias</h1>
+
+    <a class="button" href="{{url_for('noticia.nova')}}">Adicionar noticia</a>
+    
+    <section class="admin-items">
+        {%for noticia in noticias.items%}
+            <article class="admin-item">
+                <h1 class="admin-item-title">
+                    <a href="{{url_for('noticia.noticia', id=noticia.id)}}">{{noticia.titulo}}</a>
+                </h1>
+                <p class="admin-item-details">
+                    Postado em: {{noticia.postado_em.strftime('%d/%m/%Y %H:%M:%S')}}    
+                </p>
+                
+                <div class="admin-item-actions">
+                    <a class="button" href="{{url_for('noticia.editar', id=noticia.id)}}">Editar</a>
+                    
+                    <div class="switch">
+                        <input 
+                            type = "checkbox" 
+                            id = "{{noticia.id}}" 
+                            data-rota = "{{url_for('noticia.atualizar_status')}}" 
+                            {% if noticia.status %} 
+                                checked
+                            {% endif %}
+                            onchange="alterarStatus(this)"/>
+                        <label for="{{noticia.id}}">Status</label>
+                    </div>
+                </div>
+            </article>
+        {%endfor%}
+    </section>
+
+    <nav class="paginacao">
+        
+        <a class="btn btn-page" href="{{url_for('noticia.painel_noticias', page=noticias.prev_num)}}">
+            <i class="material-icons">navigate_before</i>
+        </a>
+        {% for page_num in noticias.iter_pages() %}
+            {% if page_num == noticias.page %}
+                <a class="btn btn-page btn-disable" href="#">{{page_num}}</a>
+            {%else%}
+                <a class="btn btn-page" href="{{url_for('noticia.painel_noticias', page=page_num)}}">{{page_num}}</a>
+            {% endif %}
+        {% endfor %}
+        <a class="btn btn-page" href="{{url_for('noticia.painel_noticias', page=noticias.next_num)}}">
+            <i class="material-icons">navigate_next</i></a>
+        <p class="paginacao-info">Página {{noticias.page}} de {{noticias.pages}}</p>
+    </nav>
+{% endblock %} 

@@ -1,0 +1,64 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Gerenciar vereadores
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{url_for('static', filename='js/atualizar-status.js')}}"></script>
+{% endblock %}
+
+
+{% block content %}
+    <h1 class="content-title">Vereadores</h1>
+    <a class="button" href="{{url_for('vereador.novo')}}">Adicionar vereador</a>
+
+        <section class="admin-items">
+
+            {%for vereador in vereadores.items %}
+                <article class="admin-item">
+                    <h1 class="admin-item-title">
+                        <a href="{{url_for('vereador.vereador', id=vereador.id)}}">{{vereador.nome_civil}}</a>
+                    </h1>
+                    <p class="admin-item-details">
+                        Partido: {{vereador.partido}}<br/>
+                        Legislatura: {{vereador.legislaturas}}
+                    </p>
+                    <div class="admin-item-actions">
+                        <a class="button" href="{{url_for('vereador.editar', id=vereador.id)}}">Editar</a>
+                        <div class="switch">
+                            <input 
+                                type = "checkbox" 
+                                name = "toggle-btn" 
+                                id = "{{vereador.id}}" 
+                                data-rota = "{{url_for('vereador.atualizar_status')}}"
+                                {% if vereador.status %} 
+                                    checked
+                                {% endif %}
+                                onchange="alterarStatus(this)"/>
+                            <label for="{{vereador.id}}">Status</label>
+                        </div>
+                    </div>
+        
+                </article>
+    
+            {%endfor%}
+        </section>
+
+
+    <nav class="paginacao">
+        <a class="btn btn-page" href="{{url_for('vereador.painel_vereadores', page=vereadores.prev_num)}}">
+            <i class="material-icons">navigate_before</i>
+        </a>
+        {% for page_num in vereadores.iter_pages() %}
+            {% if page_num == vereadores.page %}
+                <a class="btn btn-page btn-disable" href="#">{{page_num}}</a>
+            {%else%}
+                <a class="btn btn-page" href="{{url_for('vereador.painel_vereadores', page=page_num)}}">{{page_num}}</a>
+            {% endif %}
+        {% endfor %}
+        <a class="btn btn-page" href="{{url_for('vereador.painel_vereadores', page=vereadores.next_num)}}">
+            <i class="material-icons">navigate_next</i></a>
+        <p class="paginacao-info">Página {{vereadores.page}} de {{vereadores.pages}}</p>
+    </nav>
+{% endblock %}

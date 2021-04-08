@@ -1,0 +1,46 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Documentos
+{% endblock %}
+
+{% block estilos %}
+    <style>
+    </style>
+{% endblock %}
+
+{%block content %} 
+
+    <section class="posts">
+        {% for documento in documentos.items %}
+                <article class="post">
+                    <a href="{{url_for('views.media_doc', filename=documento.url)}}">
+                        <h1 class="post-title">
+                            {{ documento.titulo }}
+                        </h1>
+                    </a>
+
+                    <p class="post-info">
+                        Tipo: {{documento.tipo}}<br>
+                        Postado em: {{documento.postado_em.strftime("%d/%m/%Y")}}
+                    </p>
+                </article>
+        {% endfor %}
+    </section> 
+
+    <nav class="paginacao">
+        <a class="btn btn-page" href="{{url_for('documentos.documentos', page=documentos.prev_num, tipo=tipo, termos=termos)}}">
+            <i class="material-icons">navigate_before</i>
+        </a>
+        {% for page_num in documentos.iter_pages() %}
+            {% if page_num == documentos.page %}
+                <a class="btn btn-page btn-disable" href="#">{{page_num}}</a>
+            {%else%}
+                <a class="btn btn-page" href="{{url_for('documentos.documentos', page=page_num, tipo=tipo, termos=termos)}}">{{page_num}}</a>
+            {% endif %}
+        {% endfor %}
+        <a class="btn btn-page" href="{{url_for('documentos.documentos', page=documentos.next_num, tipo=tipo, termos=termos)}}">
+            <i class="material-icons">navigate_next</i></a>
+        <p class="paginacao-info">Página {{documentos.page}} de {{documentos.pages}}</p>
+    </nav>
+{% endblock %}

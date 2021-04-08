@@ -1,0 +1,47 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Vereadores
+{% endblock %}
+
+{% block estilos%}
+    <style>
+    </style>
+{% endblock %}
+
+{% block content %}
+
+        <section class="posts">
+            {% for vereador in vereadores.items %}
+                    <article class="post">
+                        <a href="{{url_for('vereador.vereador', id=vereador.id)}}">
+                            <h1 class="post-title">{{ vereador.nome_civil }}</h1>
+                        
+                            {%if vereador.foto %}
+                                <img class="post-thumb" src="{{url_for('views.media_img', filename=vereador.foto)}}">
+                            {%endif%}
+                        </a>
+                        <p class="post-info">
+                            {{vereador.nome_urna}} - {{vereador.partido}}
+                        </p>
+                    </article>
+            {% endfor %}
+        </section>
+
+        <nav class="paginacao">
+            <a class="btn btn-page" href="{{url_for('vereador.vereadores', page=vereadores.prev_num)}}">
+                <i class="material-icons">navigate_before</i>
+            </a>
+            {% for page_num in vereadores.iter_pages() %}
+                {% if page_num == vereadores.page %}
+                    <a class="btn btn-page btn-disable" href="#">{{page_num}}</a>
+                {%else%}
+                    <a class="btn btn-page" href="{{url_for('vereador.vereadores', page=page_num)}}">{{page_num}}</a>
+                {% endif %}
+            {% endfor %}
+            <a class="btn btn-page" href="{{url_for('vereador.vereadores', page=vereadores.next_num)}}">
+                <i class="material-icons">navigate_next</i></a>
+            <p class="paginacao-info">Página {{vereadores.page}} de {{vereadores.pages}}</p>
+        </nav>
+
+{% endblock %}

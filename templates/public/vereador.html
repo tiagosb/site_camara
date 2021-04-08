@@ -1,0 +1,17 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Vereador
+{% endblock %}
+
+{% block content %}
+    <h1 class="titulo">{{vereador.nome_civil}}</h1>
+    <p>
+        Partido: {{vereador.partido}}<br>
+        Legislaturas: {{vereador.legislaturas}}
+    </p>
+    <h2>Detalhes</h2>
+    <div class="content">
+        {{vereador.detalhes | safe}}
+    </div>
+{% endblock %}

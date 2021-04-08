@@ -1,0 +1,66 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Gerenciar documentos
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{url_for('static', filename='js/atualizar-status.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+    <h1 class="content-title">Noticias</h1>
+
+    <a  class="button" href="{{url_for('documentos.novo')}}">Adicionar documento</a>
+
+    <section class="admin-items">
+        {%for documento in documentos.items%}
+            
+            <article class="admin-item">
+                <h1 class="admin-item-title">
+                    <a href="{{url_for('views.media_doc', filename=documento.url)}}">{{documento.titulo}}</a>
+                </h1>
+                <p class="admin-item-details">
+                    Tipo: {{documento.tipo}}<br/>
+                    Nome do arquivo: {{documento.url}}
+                </p>
+                
+                <div class="admin-item-actions">
+
+                    <a class="button" href="{{url_for('documentos.editar', id=documento.id)}}">Editar</a>
+                        
+                    <div class="switch">
+                        <input 
+                            type = "checkbox" 
+                            name = "toggle-btn" 
+                            id = "{{documento.id}}" 
+                            data-rota = "{{url_for('documentos.atualizar_status')}}"
+                            {% if documento.status %} 
+                                checked
+                            {% endif %}
+                            onchange = "alterarStatus(this)"/>
+                        <label for = "{{documento.id}}">Status</label>
+                    </div>
+                </div>
+            </article>
+
+        {%endfor%}
+    </section>
+ 
+    <nav class="paginacao">
+        <a class="btn btn-page" href="{{url_for('documentos.painel_documentos', page=documentos.prev_num)}}">
+            <i class="material-icons">navigate_before</i>
+        </a>
+        {% for page_num in documentos.iter_pages() %}
+            {% if page_num == documentos.page %}
+                <a class="btn btn-page btn-disable" href="#">{{page_num}}</a>
+            {%else%}
+                <a class="btn btn-page" href="{{url_for('documentos.painel_documentos', page=page_num)}}">{{page_num}}</a>
+            {% endif %}
+        {% endfor %}
+        <a class="btn btn-page" href="{{url_for('documentos.painel_documentos', page=documentos.next_num)}}">
+            <i class="material-icons">navigate_next</i></a>
+        <p class="paginacao-info">Página {{documentos.page}} de {{documentos.pages}}</p>
+    </nav>
+
+{% endblock %}

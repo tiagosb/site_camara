@@ -1,0 +1,47 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Sessões
+{% endblock %}
+
+{% block estilos %}
+    <style>
+
+    </style>
+{% endblock %}
+
+{%block content %}
+     
+    <section class="posts">
+        {% for sessao in sessoes.items %}
+                <article class="post">
+                    <a href="{{url_for('sessao.sessao', id=sessao.id)}}">
+                        <h1 class="post-title">
+                            {{ sessao.tipo }}
+                        </h1>
+                    </a>
+                    <p class="post-info">
+                        {{sessao.data.strftime("%d/%m/%Y")}} às {{sessao.hora.strftime("%H:%M")}}
+                    </p>
+                </article>
+        {% endfor %}
+    </section>
+
+        
+    <nav class="paginacao">
+        <a class="btn btn-page" href="{{url_for('sessao.sessoes', page=sessoes.prev_num)}}">
+            <i class="material-icons">navigate_before</i>
+        </a>
+        {% for page_num in sessoes.iter_pages() %}
+            {% if page_num == sessoes.page %}
+                <a class="btn btn-page btn-disable" href="#">{{page_num}}</a>
+            {%else%}
+                <a class="btn btn-page" href="{{url_for('sessao.sessoes', page=page_num)}}">{{page_num}}</a>
+            {% endif %}
+        {% endfor %}
+        <a class="btn btn-page" href="{{url_for('sessao.sessoes', page=sessoes.next_num)}}">
+            <i class="material-icons">navigate_next</i></a>
+        <p class="paginacao-info">Página {{sessoes.page}} de {{sessoes.pages}}</p>
+    </nav>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Novo documento
+{% endblock%} 
+
+{% block scripts %}
+    <script src="{{url_for('static', filename='tinymce/tinymce.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/form-noticia.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+    <h1 class="titulo">Cadastrar documento</h1>
+
+    <form action="{{url_for('documentos.novo')}}" method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        {% if form.csrf_token.errors %}
+            <span class="alert">Acesse o formulário a partir página de gerenciamento de documentos.</span>
+        {% endif %}
+        <div class="form-group">
+            {{form.tipo.label}}
+            {{form.tipo}}
+        </div>
+        
+        <div class="form-group">
+            {{form.titulo.label}}
+            {{form.titulo}}
+        </div>
+
+        <div class="form-group">
+            {{form.palavras_chave.label}}
+            {{form.palavras_chave}}
+        </div>
+        
+        <div class="form-group">
+            {{form.arquivo.label}}
+            {{form.arquivo(required=True, accept=".doc, .docx, .odt, .odf, .txt, .rtf, .pdf")}}
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Cadastrar">
+        </div>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Sessão
+{% endblock %}
+
+{% block content %}
+    <h1 class="titulo">{{sessao_escolhida.tipo}}</h1>
+    <p>
+        Data: {{sessao_escolhida.data.strftime('%d/%m/%Y')}}<br>
+        Horário de inicio: {{sessao_escolhida.hora}}
+    </p>
+    <h2>Detalhes</h2>
+    <div class="content">
+        {{sessao_escolhida.detalhes | safe}}
+    </div>
+{% endblock %}

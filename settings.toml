@@ -1,0 +1,16 @@
+[default]
+SQLALCHEMY_TRACK_MODIFICATIONS = false
+UPLOAD_FOLDER_IMG = "media/img"
+UPLOAD_FOLDER_DOC = "media/doc"
+PAGINATION_OFFSET = 15
+
+[development]
+SQLALCHEMY_DATABASE_URI = "sqlite:///sys.db"
+SECRET_KEY = "dev"
+
+[testing]
+DEBUG = false
+SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+SECRET_KEY = "test"
+WTF_CSRF_ENABLED = false
+ 

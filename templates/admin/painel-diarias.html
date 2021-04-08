@@ -1,0 +1,46 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Gerenciar diárias
+{% endblock %}
+
+
+{% block content %}
+    <h1 class="content-title">Diárias</h1>
+    <a class="button" href="{{url_for('diaria.nova')}}">Adicionar diária</a>
+
+        <section class="admin-items">
+            {%for diaria in diarias.items%}
+                <article class="admin-item">
+                    <h1 class="admin-item-title">
+                        <a href="{{url_for('diaria.diaria', id=diaria.id)}}">{{diaria.nome}}</a>
+                    </h1>
+                    <p class="admin-item-details">
+                        Valor: {{ "R$ %.2f"|format(diaria.valor|float) }}<br>
+                        Destino: {{diaria.destino}}
+                    </p>
+
+                    <div class="admin-item-actions">
+                        <a class="button" href="{{url_for('diaria.editar',id=diaria.id)}}">Editar</a>       
+                    </div>
+                </article>
+    
+            {%endfor%}
+        </section>
+
+    <nav class="paginacao">
+        <a class="btn btn-page" href="{{url_for('diaria.painel_diarias', page=diarias.prev_num)}}">
+            <i class="material-icons">navigate_before</i>
+        </a>
+        {% for page_num in diarias.iter_pages() %}
+            {% if page_num == diarias.page %}
+                <a class="btn btn-page btn-disable" href="#">{{page_num}}</a>
+            {%else%}
+                <a class="btn btn-page" href="{{url_for('diaria.painel_diarias', page=page_num)}}">{{page_num}}</a>
+            {% endif %}
+        {% endfor %}
+        <a class="btn btn-page" href="{{url_for('diaria.painel_diarias', page=diarias.next_num)}}">
+            <i class="material-icons">navigate_next</i></a>
+        <p class="paginacao-info">Página {{diarias.page}} de {{diarias.pages}}</p>
+    </nav>
+{% endblock %}

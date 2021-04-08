@@ -1,0 +1,38 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Editar vereador
+{% endblock%}
+
+{% block scripts %}
+    <script src="{{url_for('static', filename='tinymce/tinymce.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/form-noticia.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+    <h1 class="titulo">Editar vereador</h1>
+    <form action="{{url_for('vereador.editar', id=form.id.data)}}" method="post" enctype="multipart/form-data">
+
+        {% for field in form %}
+            <div class="form-group">
+                {% if field.type == "HiddenField" or field.type == "CSRFTokenField" %}
+                {% else %}
+                    {{field.label}}
+                    {{field}}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div class="form-group">
+            <span>Preview da imagem</span>
+            {% if form.thumb.data %}
+                <img id="thumb-preview" src="{{form.thumb.data}}">
+            {% else %}
+                <img id="thumb-preview">
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Atualizar">
+        </div>
+    </form>
+
+{% endblock %}

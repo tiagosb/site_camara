@@ -1,0 +1,32 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Painel administrativo
+{% endblock %}
+
+{% block estilos %}
+    <style>
+        .painel-adm {
+            margin-top: 20px;
+        }
+        .painel-adm-item a {
+            padding: 10px 15px;
+            border: 1px solid lightgray;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            display: block;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h1>Painel administrativo</h1>
+    <ul class="painel-adm">
+        <li class="painel-adm-item"><a href="{{url_for('noticia.painel_noticias')}}">Noticias</a></li>
+        <li class="painel-adm-item"><a href="{{url_for('sessao.painel_sessoes')}}">Sessões</a></li>
+        <li class="painel-adm-item"><a href="{{url_for('vereador.painel_vereadores')}}">Vereadores</a></li>
+        <li class="painel-adm-item"><a href="{{url_for('documentos.painel_documentos')}}">Documentos</a></li>
+        <li class="painel-adm-item"><a href="{{url_for('diaria.painel_diarias')}}">Diárias</a></li>
+    </ul>
+{% endblock %}

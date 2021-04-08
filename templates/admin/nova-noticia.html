@@ -1,0 +1,54 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Nova noticia
+{% endblock%}
+
+{% block scripts %}
+    <script src="{{url_for('static', filename='tinymce/tinymce.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/form-noticia.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+    <h1 class="titulo">Cadastrar notícia</h1>
+
+    <form action="{{url_for('noticia.nova')}}" method="post" enctype="multipart/form-data">
+
+        {{ form.csrf_token }}
+        {% if form.csrf_token.errors %}
+            <div class="warning">You have submitted an invalid CSRF token</div>
+        {% endif %}
+        <div class="form-group">
+            {{form.categoria.label}}
+            {{form.categoria}}
+        </div>
+
+        <div class="form-group">
+            {{form.titulo.label}}
+            {{form.titulo}}
+        </div>
+        <div class="form-group">  
+            {% if 'conteudo' in form.errors %}
+                {{ form.errors.get('conteudo')[0] }}
+            {% endif %}
+            {{form.conteudo.label}}
+            
+            {{form.conteudo}}
+        </div>
+        <div class="form-group">
+            {{form.destaque.label}}
+            {{form.destaque}}
+        </div>
+        <div class="form-group">
+            {{form.thumb.label}} 
+            {{form.thumb(accept='image/*')}}
+        </div>
+        <div class="form-group">
+            <span>Preview da imagem</span>
+            <img id="thumb-preview">
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Cadastrar">
+        </div>
+    </form>
+{% endblock %}

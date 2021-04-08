@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="favo.css">
+    <script src="favo.js"></script>
+    <title>Favo Slider</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            new Favo({
+                selector: '.slider1',
+                width: '100%', 
+                height: '250px',
+                dotsEnabled: true,
+                arrowsEnabled: true,
+                autoRunEnabled: false,
+                time: 2000,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+            });
+
+            new Favo({
+                selector: '#slider2',
+                autoRunEnabled: true, 
+                time: 3000,
+                dotsEnabled: true,
+                arrowsEnabled: false,
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="slider1">
+        <div class="slide s1">1
+            <span class="slide-title">Esse é o primeiro slide</span>
+        </div>
+        <div class="slide s2">2
+            <span class="slide-title">Esse é o segundo slide</span>
+        </div>
+        <div class="slide s3">3
+            <span class="slide-title">Esse é o terceito slide</span>
+        </div>
+        <div class="slide s4">4
+            <span class="slide-title">Esse é o quarto slide feliz</span>
+        </div>
+    </div>
+
+    <ul id="slider2">
+        <li class="slide">
+            <img src="./img1.jpg" alt="Primeira imagem">
+            <span class="slide-title">Slide 1</span>
+        </li>
+        <li class="slide">
+            <img src="./img2.jpg" alt="Segunda imagem">
+            <span class="slide-title">Slide 2</span>
+        </li>
+        <li class="slide">
+            <img src="./img3.jpg" alt="Terceira imagem">
+            <span class="slide-title">Slide 3</span>
+        </li>
+    </ul>
+</body>
+</html>

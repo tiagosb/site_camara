@@ -1,0 +1,187 @@
+{% extends 'public/base.html' %}
+
+{% block title %} 
+    Início
+{% endblock %}
+{% block scripts %}
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="{{url_for('static', filename='favo/favo.js')}}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            new Favo({
+                selector: '.slider-noticias',
+                dotsEnabled: true,
+                autoRunEnabled: true, 
+                time: 5000,
+                width: '100%',
+                height: '250px',
+            });
+
+            new Favo({
+                selector: '.slider-vereadores',
+                height: '300px',
+                autoRunEnabled: true, 
+                time: 5000,
+            });
+
+            // Carrega o mapa com a localização
+            const element = document.getElementById('osm-map');
+            element.style = 'height:300px;';
+            const map = L.map(element);
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            //Define a localização no mapa 
+            const target = L.latLng('-8.3603046', '-42.2477495');
+            map.setView(target, 17);
+            L.marker(target).addTo(map);
+        });
+    </script>
+
+{% endblock  %}
+
+{% block estilos %} 
+    <link rel="stylesheet" href="{{url_for('static', filename='favo/favo.css')}}">
+    <link href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" rel="stylesheet"/>
+    <style>
+        .slider{
+            position: relative;  
+            scrollbar-width: none;
+            position: relative;
+        }
+        .slide{
+            position: relative;
+            display: block;
+            background-color: rgba(0, 0, 0, 0.6);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: white;
+            width: 100%;
+            min-height: 220px;
+            cursor: pointer;
+        }
+        .slide-title {
+            display: block;
+            color: whitesmoke;
+            font-size: 0.9rem;
+            text-align: center;
+            width: 100%;
+            background: linear-gradient(to top,rgba(36, 11, 5, 0.1), rgba(36, 11, 5, 0.4) 64%);
+            font-family: sans-serif;
+            padding: 0.4em;
+            font-weight: bold;
+            text-shadow: 1px 1px 1px rgba(0,0,0,.4);
+            
+        }
+        .slider-container-vereador {
+            position: relative;
+        }
+        .slider-vereador-next {
+            position: absolute;
+            right: 0;
+            top: 50%
+        }
+        .slider-vereador-prev {
+            position: absolute;
+            left: 0;
+            top: 50%;
+        }
+        .slide-title-vereador {
+            position: absolute;
+            color: white;
+            bottom: 4px;
+            left: 4px;
+            padding: 5px;
+            border-radius: 4px;
+            padding-right: 18px;
+            border-top-right-radius: 43%;
+            background: linear-gradient(to left, rgba(0,0,0,0.1),rgba(0,0,0,.6) 80%);
+            border: none;
+        }
+        .arrow {
+            background: none;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+    </style>
+{% endblock  %}
+
+{% block content %}
+    <div class="slider-noticias">
+        {% for noticia in noticias %}
+                {% if noticia.thumb %}
+                <a class="slide" href="{{url_for('noticia.noticia', id=noticia.id)}}"> 
+                    <img src="{{url_for('views.media_img', filename=noticia.thumb)}}">               
+                    
+                    <span class="slide-title">
+                        {{noticia.titulo}}
+                    </span>
+                </a>
+                {% endif %}
+        {% endfor %}
+    </div>
+    
+    <section class="proxima-sessao bottom-divisor">
+        <h2 class="content-subtitle">Próxima Sessão</h2>
+        <div class="proxima-sessao-content">
+            {% if sessao %}    
+                    <p> 
+                        <span class="sessao-tipo">Tipo: {{ sessao.tipo }}</span>
+                        <span class="sessao-info">
+                            Quando: {{sessao.data.strftime("%d/%m/%Y")}} às {{sessao.hora}}
+                        </span>
+                    </p>
+                    <a class="button proxima-sessao-btn" href="{{url_for('sessao.sessao', id=sessao.id)}}">Ver detalhes</a>
+            {% else %}
+                <p>Não há sessão agendada!</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <h2 class="content-subtitle">Buscar Legislação</h2>
+    <section class="busca-wraper bottom-divisor ">
+        <form action="{{url_for('documentos.documentos')}}" method="GET">
+            <div class="form-group">
+                <label for="tipo">Tipo</label>
+                <select name="tipo" id="tipo">
+                    <option value="Todos">Todos</option>
+                    <option value="Lei">Leis</option>
+                    <option value="Projeto de lei">Projetos de Lei</option>
+                    <option value="Decreto">Decretos</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="termos">Palavras chave</label>
+                <input type="text" name="termos" id="termos" placeholder="Termos de busca">
+            </div>
+            <div class="form-group">
+                <input class="button" type="submit" value="Buscar">
+            </div>
+        </form>
+    </section>
+
+    <h2 class="content-subtitle">Vereadores</h2>
+    <div class="slider-vereadores">
+        {% for vereador in vereadores %}
+            {% if vereador.foto %}
+            <a class="slide slide-vereador" href="{{url_for('vereador.vereador', id=vereador.id)}}">
+                
+                <img src="{{url_for('views.media_img', filename=vereador.foto)}}">      
+
+                <span class="slide-title-vereador">
+                    {{vereador.nome_urna}} - {{vereador.partido}}
+                </span>
+            </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="localizacao-mapa bottom-divisor">
+        <h2 class="content-subtitle">Localização</h2>
+        <div id="osm-map"></div>
+    </div>
+
+{% endblock %}

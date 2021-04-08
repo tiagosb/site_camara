@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "sistema_camara"
+version = "0.1.0"
+description = "\"Sistema para Câmara de Vereadores\""
+authors = ["tiagosb <tdsb.contato@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

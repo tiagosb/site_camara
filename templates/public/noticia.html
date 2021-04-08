@@ -1,0 +1,31 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Notícia
+{% endblock %}
+
+{% block estilos %}
+    <style>
+        .post-info {
+            display: block;
+            font-size: 75%;
+            font-family: sans-serif;
+            margin-top: 25px;
+        }
+   
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <h1 class="titulo">{{post.titulo}}</h1>
+        {{post.conteudo | safe}}
+        <span class="post-info">                
+            {% if  post.atualizado_em %}
+                Atualizado em {{ post.atualizado_em.strftime('%d/%m/%Y %H:%M') }}
+            {% else %}
+                Postado em {{post.postado_em.strftime('%d/%m/%Y %H:%M')}}
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

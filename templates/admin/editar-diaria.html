@@ -1,0 +1,50 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+    Editar diária
+{% endblock%}
+
+{% block scripts %}
+    <script src="{{url_for('static', filename='tinymce/tinymce.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/form-noticia.js')}}"></script>
+{% endblock %}
+
+{% block estilos %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/form-noticia.css')}}">
+{% endblock %}
+
+{% block content %}
+    <h1 class="titulo">Editar diária</h1>
+
+    <form action="{{url_for('diaria.editar', id=form.id.data)}}" method="post">
+        {{ form.csrf_token }}
+        {% if form.csrf_token.errors %}
+            <div class="warning">You have submitted an invalid CSRF token</div>
+        {% endif %}
+        {{form.id}}
+        <div class="form-group">
+            {{form.nome.label}}
+            {{form.nome}}
+        </div>
+        <div class="form-group">
+            {{form.data.label}}
+            {{form.data}}
+        </div>
+        <div class="form-group">
+            {{form.destino.label}}
+            {{form.destino}}
+        </div>
+        <div class="form-group">
+            {{form.motivo.label}}
+            {{form.motivo}}
+        </div>
+        <div class="form-group">
+            {{form.valor.label}}
+            {{form.valor(min=0, step=0.1)}}
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Atualizar">
+        </div>
+    </form>
+
+{% endblock %}
